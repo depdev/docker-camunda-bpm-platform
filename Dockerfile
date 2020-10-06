@@ -27,6 +27,8 @@ COPY settings.xml download.sh camunda-run.sh camunda-tomcat.sh camunda-wildfly.s
 
 RUN /tmp/download.sh
 
+#MSSQL SERVER JDBC DRIVER INSTALL
+COPY mssql-jdbc-7.2.2.jre11.jar /camunda/lib/
 
 ##### FINAL IMAGE #####
 
@@ -34,11 +36,11 @@ FROM alpine:3.10
 
 ARG VERSION=7.14.0
 
-ENV CAMUNDA_VERSION=${VERSION}
-ENV DB_DRIVER=
-ENV DB_URL=
-ENV DB_USERNAME=
-ENV DB_PASSWORD=
+ENV CAMUNDA_VERSION=7.14.0
+ENV DB_DRIVER=com.microsoft.sqlserver.jdbc.SQLServerDriver
+ENV DB_URL=jdbc:sqlserver://camundasqlserver.database.windows.net:1433;database=camundadb;user=camunda@xx;password=Broccoli.;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+ENV DB_USERNAME=camunda
+ENV DB_PASSWORD=Broccoli1
 ENV DB_CONN_MAXACTIVE=20
 ENV DB_CONN_MINIDLE=5
 ENV DB_CONN_MAXIDLE=20

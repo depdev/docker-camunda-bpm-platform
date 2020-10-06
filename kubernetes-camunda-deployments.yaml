@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camunda-brocolli
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+        app: camunda-brocolli
+  template:
+    metadata:
+      labels:
+        app: camunda-brocolli
+    spec:
+      containers:
+      - name: camunda-bpm
+        image: colesregistry.azurecr.io/development/camundaprototype:ee1.0
+        ports:
+        - containerPort: 8080
+        - containerPort: 1433
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: camunda-brocolli
+spec:
+  selector:
+    app: camunda-brocolli
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  type: LoadBalancer
